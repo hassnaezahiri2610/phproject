@@ -95,7 +95,7 @@
 
 <footer>
 <div class="container">
-	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
+	<p style="margin-bottom:0;"><b></p>
 </div>
 </footer>
 

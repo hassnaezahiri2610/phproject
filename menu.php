@@ -4,22 +4,32 @@ require_once("dbcontroller.php");
 $db_handle = new DBController();
 if(!empty($_GET["action"])) {
 switch($_GET["action"]) {
+	//ajouter au panier
 	case "add":
+	//verifier si la quantite passer par post methode n'est pas vide  et retourner vrai si oui
 		if(!empty($_POST["quantity"])) {
 			$productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
 			$itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
-			
+	//verifier si cart_item dans la session courrante n'est pas vide 
+	//retourner vrai si oui 		
 			if(!empty($_SESSION["cart_item"])) {
+				//verifier si l'article existe deja au panier
 				if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
+					//boocle des elements du panier
 					foreach($_SESSION["cart_item"] as $k => $v) {
+					//chercher l'element qui egale à l'element selectionner	
 							if($productByCode[0]["code"] == $k) {
+								//si le panier est vide rendre la session quantite à 0
 								if(empty($_SESSION["cart_item"][$k]["quantity"])) {
 									$_SESSION["cart_item"][$k]["quantity"] = 0;
 								}
+								//ajouter la nouvelle quantite
 								$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
 							}
 					}
-				} else {
+				}
+				
+				else {
 					$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
 				}
 			} else {
@@ -27,12 +37,15 @@ switch($_GET["action"]) {
 			}
 		}
 	break;
+	//action remove
 	case "remove":
+	//si cart_item n'est pas vide	
 		if(!empty($_SESSION["cart_item"])) {
 			foreach($_SESSION["cart_item"] as $k => $v) {
 					if($_GET["code"] == $k)
 						unset($_SESSION["cart_item"][$k]);				
 					if(empty($_SESSION["cart_item"]))
+		//desarmer cart_item de la session courrante			
 						unset($_SESSION["cart_item"]);
 			}
 		}
@@ -99,7 +112,7 @@ switch($_GET["action"]) {
 					<h3>MENU</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Menu</li>
 						</ol>   
 					</nav>
@@ -109,7 +122,7 @@ switch($_GET["action"]) {
 	</div>
 </header>
 
-
+   <!--panier-->
 <div id="shopping-cart">
 	<div class="container">
 		<div class="row">
@@ -184,7 +197,7 @@ switch($_GET["action"]) {
 								<img class="card-img-top card-img" src="<?php echo $product_array[$key]["image"]; ?>">
 								<div class="card-body">
 									<h5 class="card-title"><?php echo $product_array[$key]["name"]; ?></h5>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+								
 								</div>
 								<div class="card-footer">
 									<small style="margin-right:15px;" class="text-muted"><?php echo $product_array[$key]["price"]; ?><span>$</span></small>
@@ -205,7 +218,7 @@ switch($_GET["action"]) {
 
 <footer>
 <div class="container">
-	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
+	<p style="margin-bottom:0;"><b></p>
 </div>
 </footer>
 

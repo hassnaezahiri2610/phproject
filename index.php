@@ -57,7 +57,7 @@
 		  <div class="carousel-item active" style="background-image: url('img/slide1.jpg')">
 			<div class="carousel-caption d-none d-md-block">
 			  <h2 class="display-4 title-food">Fooday restaurant</h2>
-			  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus faucibus in quam eget sollicitudin. Aenean imperdiet dui sit amet ullamcorper posuere. Donec nec faucibus sapien.</p>
+			  <p class="lead">spent The most special time with your loved one</p>
 			  <a href="menu.php" type="button" class="btn btn-light button-menu">Show Menu</a>	  
 			</div>
 		  </div>
@@ -65,7 +65,7 @@
 		  <div class="carousel-item" style="background-image: url('img/slide2.jpg')">
 			<div class="carousel-caption d-none d-md-block">
 			  <h2 class="display-4 title-food">The food you love</h2>
-			  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus faucibus in quam eget sollicitudin. Aenean imperdiet dui sit amet ullamcorper posuere. Donec nec faucibus sapien.</p>
+			  <p class="lead">spent The most special time with your loved one</p>
 			  <button type="button" class="btn btn-default btn-light button-us">Contact us</button>	  
 
 			</div>
