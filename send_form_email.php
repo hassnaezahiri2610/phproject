@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['signup'])) {
+if (isset($_POST['email_send'])) {
 
 
     // EDIT THE 2 LINES BELOW AS REQUIRED
@@ -33,16 +33,9 @@ if (isset($_POST['signup'])) {
 
         !isset($_POST['email']) ||
 
-        !isset($_POST['password']) ||
+        !isset($_POST['telephone']) ||
 
-        !isset($_POST['confirm_password']) || 
-
-        !isset($_POST['address']) ||
-
-        !isset($_POST['city']) ||
-
-        !isset($_POST['zip']) 
-
+        !isset($_POST['comments'])
     ) {
 
         died('We are sorry, but there appears to be a problem with the form you submitted.');
@@ -50,113 +43,15 @@ if (isset($_POST['signup'])) {
 
 
 
-    $name = $_POST['name']; 
+    $name = $_POST['name']; // required
 
-    $email_from = $_POST['email']; 
+    $email_from = $_POST['email']; // required
 
-   $password =  $_POST['password'];
+    $telephone = $_POST['telephone']; // not required
 
-   $confirm_password = $_POST['confirm_password'];
- 
-    $address =  $_POST['address'];
+    $comments = $_POST['comments']; // required
 
-    $city =  $_POST['city'];
 
-    $zip =  $_POST['zip'];
-    
-    //*************************************//
-  function validateMember()
-{
-    $valid = true;
-    $errorMessage = array();
-    foreach ($_POST as $key => $value) {
-        if (empty($_POST[$key])) {
-            $valid = false;
-        }
-    }
-    
-    if($valid == true) {
-        if ($_POST['password'] != $_POST['confirm_password']) {
-            $errorMessage[] = 'Passwords should be same.';
-            $valid = false;
-        }
-        
-        if (! isset($error_message)) {
-            if (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-                $errorMessage[] = "Invalid email address.";
-                $valid = false;
-            }
-        }
-        
-        if (! isset($error_message)) {
-            if (! isset($_POST["terms"])) {
-                $errorMessage[] = "Accept terms and conditions.";
-                $valid = false;
-            }
-        }
-    }
-    else {
-        $errorMessage[] = "All fields are required.";
-    }
-    
-    if ($valid == false) {
-        return $errorMessage;
-    }
-    return;
-}
-//**************************************************//
-/* namespace Phppot;
-
-use \Phppot\Member;
-if (! empty($_POST["signup"])) {
-    
-    $name = filter_var($_POST["name"], FILTER_SANITIZE_STRING);
-    $password = filter_var($_POST["password"], FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST["userEmail"], FILTER_SANITIZE_STRING);
-    require_once ("signup.php");
-    // Form Required Field Validation 
-    $member = new Member();
-    $errorMessage = $member->validateMember($username, $displayName, $password, $email);
-    
-    if (empty($errorMessage)) {
-        $memberCount = $member->isMemberExists($username, $email);
-        
-        if ($memberCount == 0) {
-            $insertId = $member->insertMemberRecord($username, $displayName, $password, $email);
-            if (! empty($insertId)) {
-                header("Location: thankyou.php");
-            }
-        } else {
-            $errorMessage[] = "User already exists.";
-        }
-    }
-} */
-//**********************************************//
- /*function isMemberExists($username, $email)
-{
-    $query = "select * FROM registered_users WHERE user_name = ? OR email = ?";
-    $paramType = "ss";
-    $paramArray = array($username, $email);
-    $memberCount = $this->ds->numRows($query, $paramType, $paramArray);
-    
-    return $memberCount;
-} */
-//****************************************//
- /*function insertMemberRecord($username, $password, $email)
-{
-    $passwordHash = md5($password);
-    $query = "INSERT INTO registered_users (user_name, display_name, password, email) VALUES (?, ?, ?, ?)";
-    $paramType = "ssss";
-    $paramArray = array(
-        $username,
-        $displayName,
-        $passwordHash,
-        $email
-    );
-    $insertId = $this->ds->insert($query, $paramType, $paramArray);
-    return $insertId;
-} */
-    //**********************************//
 
     $error_message = "";
 
@@ -171,10 +66,13 @@ if (! empty($_POST["signup"])) {
 
     if (!preg_match($string_exp, $name)) {
 
-        $error_message .= 'The Name you entered does not appear to be valid.<br />';
+        $error_message .= 'The First Name you entered does not appear to be valid.<br />';
     }
-   
-    
+
+    if (strlen($comments) < 2) {
+
+        $error_message .= 'The Comments you entered do not appear to be valid.<br />';
+    }
 
     if (strlen($error_message) > 0) {
 
@@ -217,7 +115,7 @@ if (! empty($_POST["signup"])) {
     Thank you for contacting us. We will be in touch with you very soon.
     ';
 
-     header("Location: login.php");
+     header("Location: contactus.php");
 }
 
 ?>
