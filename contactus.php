@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -18,6 +18,7 @@
 
 
 <body>
+
 <!-- Navigation -->
 <nav class="navbar mynav navbar-expand-lg navbar-light bg-light fixed-top">
 	  <div class="container">
@@ -35,10 +36,10 @@
 			<li class="nav-item">
 			  <a class="nav-link" href="about.php">About Us</a>
 			</li>
-			<li class="nav-item">
+				<li class="nav-item active">
 			  <a class="nav-link" href="contactus.php">Contact Us</a>
 			</li>
-			<li class="nav-item active">
+			<li class="nav-item ">
 			  <a class="nav-link" href="signup.php">Sign up</a>
 			</li>
 			<li class="nav-item">
@@ -54,10 +55,10 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 header-location">
-					<h3>SIGN UP</h3>
+					<h3>CONTACT US</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Signup</li>
 						</ol>   
 					</nav>
@@ -66,60 +67,50 @@
 		</div>
 	</div>
 </header>
+  <div style="margin-top:30px;" class=" container content">
+        <div class="formDiv">
+            <form action="send_form_email.php" method="post" id="frmLogin">
+               
+                <div class="form-group">
+                    <label for="emailInput">
+                        Full Name:
+                    </label>
+                    <input type="text" class="form-control" aria-describedby="name" id="name" name="name" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">
+                        Email:
+                    </label>
+                    <input type="email" class="form-control" aria-describedby="Email Address" id="email" name="email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">
+                        Telephone:
+                    </label>
+                    <input type="text" class="form-control" aria-describedby="Telephone" id="telephone" name="telephone" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">
+                        Comments:
+                    </label>
+                    <textarea name="comments" class="form-control" id="comments" cols="30" rows="10">
+                </textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-success" value="Send" name="email_send">
 
-<section class="signup">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<form method="POST" action="login.php">
-						<div class="form-group">
-						<label class="title-sign" for="fullname">Full Name</label>
-						<input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name">
-					  </div>
-					  <div class="form-row">
-						<div class="form-group col-md-6">
-						  <label class="title-sign" for="inputEmail4">Email</label>
-						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
-						</div>
-						<div class="form-group col-md-6">
-						  <label class="title-sign" for="inputPassword4">Password</label>
-						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
-						</div>
-					  </div>
-					  <div class="form-group">
-						<label class="title-sign" for="inputAddress">Address</label>
-						<input type="text" class="form-control" name="address" id="inputAddress">
-					  </div>
-					  <div class="form-row">
-						<div class="form-group col-md-6">
-						  <label class="title-sign" for="inputCity">City</label>
-						  <input type="text" class="form-control" name="city" id="inputCity">
-						</div>
-						<div class="form-group col-md-6">
-						  <label class="title-sign" for="inputZip">Zip</label>
-						  <input type="text" class="form-control" name="zip" id="inputZip">
-						</div>
-					  </div>
-					  <div class="form-group">
-						<div class="form-check">
-						  <input class="form-check-input" type="checkbox" id="gridCheck">
-						  <label class="title-sign" class="form-check-label" for="gridCheck">
-							Check me out
-						  </label>
-						</div>
-					  </div>
-					  <button type="submit" name="signup" class="btn btn-default button-sign">Sign Up</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</section>
+                </div>
 
-<footer>
-<div class="container">
-	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
-</div>
-</footer>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+
+</body>
+
+
 
 <!-- jQuery and Bootstrap -->
 <script src="js/jquery-3.4.1.min.js"></script>

@@ -1,4 +1,47 @@
-<!DOCTYPE html>
+<?php
+session_start();
+require_once("dbcontroller.php");
+$db_handle = new DBController(); 
+if (isset($_POST["signup"])) {
+    
+	$name =  $_POST["name"];
+	$email =  $_POST["email"];
+	$password =  $_POST["password"];
+	$address =  $_POST["address"];
+	$city =  $_POST["city"];
+	$zip =  $_POST["zip"];
+	
+
+
+	$sql = $db_handle->runQuery("INSERT INTO `users`( `name`, `email`, `password`, `address`, `city`, `zip` ) VALUES ('{$name}' , '{$email}' , '{$password}' ,'{$address}' , '{$city}', '{$zip}')");
+ 
+ 	if ($sql) {
+			
+           header("Location: menu.php");
+           exit();
+ 
+	}
+
+}
+if (isset($_POST["login"])) {
+
+        $email =  $_POST["email"] ;
+        $password = $_POST["password"] ;
+
+		$sql1 = $db_handle->runQuery("SELECT * FROM `users` WHERE `email`='{$email}' AND `password`= '{$password}' ");
+
+        if ($sql1) {
+			$_SESSION['email'] = $_POST["email"];
+            header("Location: menu-login.php");
+            exit();
+
+        } else{
+			header("Location: login.php");
+            exit();
+		}
+			
+}
+?>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -37,6 +80,9 @@
 			  <a class="nav-link" href="about.php">About Us</a>
 			</li>
 			<li class="nav-item">
+			  <a class="nav-link" href="contactus.php">Contact Us</a>
+			</li>
+			<li class="nav-item">
 			  <a class="nav-link" href="signup.php">Sign up</a>
 			</li>
 			<li class="nav-item active">
@@ -69,14 +115,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<form>
+				<form method="POST">
 						<div class="form-group">
 						  <label class="title-sign" for="inputEmail4">Email</label>
-						  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
 						</div>
 						<div class="form-group">
 						  <label class="title-sign" for="inputPassword4">Password</label>
-						  <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
 						</div>
 						<div class="form-group">
 							<div class="form-check">
@@ -86,7 +132,7 @@
 							  </label>
 							</div>
 						</div>
-					  <button type="submit" class="btn btn-default button-sign">Login</button>
+					  <button type="submit" class="btn btn-default button-sign" name="login">Login</button>
 				</form>
 			</div>
 		</div>
@@ -95,7 +141,7 @@
 
 <footer>
 <div class="container">
-	<p style="margin-bottom:0;"><b></p>
+	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
 </div>
 </footer>
 
