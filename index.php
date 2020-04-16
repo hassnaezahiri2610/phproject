@@ -37,13 +37,16 @@
 			  <a class="nav-link" href="about.php">About Us</a>
 			</li>
 			<li class="nav-item">
+			  <a class="nav-link" href="contactus.php">Contact Us</a>
+			</li>
+			<li class="nav-item">
 			  <a class="nav-link" href="signup.php">Sign up</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
 		  </ul>
-		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>
+		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a> 
 		</div>
 	  </div>
 </nav>
@@ -59,7 +62,7 @@
 		  <div class="carousel-item active" style="background-image: url('img/slide1.jpg')">
 			<div class="carousel-caption d-none d-md-block">
 			  <h2 class="display-4 title-food">Fooday restaurant</h2>
-			  <p class="lead">spent The most special time with your loved one</p>
+			  <p class="lead">spent the most special time with your loved ones</p>
 			  <a href="menu.php" type="button" class="btn btn-light button-menu">Show Menu</a>	  
 			</div>
 		  </div>
@@ -67,7 +70,7 @@
 		  <div class="carousel-item" style="background-image: url('img/slide2.jpg')">
 			<div class="carousel-caption d-none d-md-block">
 			  <h2 class="display-4 title-food">The food you love</h2>
-			  <p class="lead">spent The most special time with your loved one</p>
+			  <p class="lead">spent the most special time with your loved ones</p>
 			  <button type="button" class="btn btn-default btn-light button-us">Contact us</button>	  
 
 			</div>

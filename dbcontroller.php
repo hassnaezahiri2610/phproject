@@ -2,29 +2,28 @@
 class DBController {
 	private $host = "localhost";
 	private $user = "root";
-	private $password = "";
+	private $password = "Wiam_hasna1998";
 	private $database = "restaurant";
 	private $conn;
 	
 	function __construct() {
 		$this->conn = $this->connectDB();
 	}
-	//connexion mysql
+	
 	function connectDB() {
 		$conn = mysqli_connect($this->host,$this->user,$this->password,$this->database);
 		return $conn;
 	}
-	//recupérer donnees et les retourner sous forme de tableau
+	
 	function runQuery($query) {
 		$result = mysqli_query($this->conn,$query);
 		while($row=mysqli_fetch_assoc($result)) {
-		//stocker chaque rangée dans $resultset
 			$resultset[] = $row;
 		}		
 		if(!empty($resultset))
 			return $resultset;
 	}
-	// calculer le nombre de rangée dans query
+	
 	function numRows($query) {
 		$result  = mysqli_query($this->conn,$query);
 		$rowcount = mysqli_num_rows($result);

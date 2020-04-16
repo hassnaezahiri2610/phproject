@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+<?php include('dbcontroller.php') ?>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -44,7 +45,8 @@
 			<li class="nav-item">
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
-		  </ul>  
+		  </ul> 
+		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a> 
 		</div>
 	  </div>
 </nav>
@@ -71,33 +73,57 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<form method="POST" action="login.php">
+				<form  name="frmRegistration" method="POST" action="signup_send_email.php" >
+			        
+			           <?php
+                 if (! empty($errorMessage) && is_array($errorMessage)) {
+                      ?>	
+                 <div class="error-message">
+                    <?php 
+                 foreach($errorMessage as $message) {
+                echo $message . "<br/>";
+                  }
+                    ?>
+                    </div>
+                  <?php
+                      }
+                          ?>
+			           
 						<div class="form-group">
 						<label class="title-sign" for="fullname">Full Name</label>
-						<input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name">
+						<input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name" 
+						value="<?php if(isset($_POST['name'])) echo $_POST['name']; ?>">
 					  </div>
-					  <div class="form-row">
-						<div class="form-group col-md-6">
+						<div class="form-group">
 						  <label class="title-sign" for="inputEmail4">Email</label>
-						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
+						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email"
+						  value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>" >
 						</div>
+						 <div class="form-row">
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputPassword4">Password</label>
-						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
+						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password" value="">
+						</div>
+						<div class="form-group col-md-6">
+						  <label class="title-sign" for="confirm_password"> Confirmed assword</label>
+						 <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Password"  value="">
 						</div>
 					  </div>
-					  <div class="form-group">
+					  <div class="form-group" >
 						<label class="title-sign" for="inputAddress">Address</label>
-						<input type="text" class="form-control" name="address" id="inputAddress">
+						<input type="text" class="form-control" name="address" id="inputAddress"
+						value="<?php if(isset($_POST['address'])) echo $_POST['address']; ?>">
 					  </div>
 					  <div class="form-row">
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputCity">City</label>
-						  <input type="text" class="form-control" name="city" id="inputCity">
+						  <input type="text" class="form-control" name="city" id="inputCity"
+						  value="<?php if(isset($_POST['city'])) echo $_POST['city']; ?>">
 						</div>
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputZip">Zip</label>
-						  <input type="text" class="form-control" name="zip" id="inputZip">
+						  <input type="text" class="form-control" name="zip" id="inputZip"
+						  value="<?php if(isset($_POST['zip'])) echo $_POST['zip']; ?>">
 						</div>
 					  </div>
 					  <div class="form-group">
@@ -108,7 +134,10 @@
 						  </label>
 						</div>
 					  </div>
-					  <button type="submit" name="signup" class="btn btn-default button-sign">Sign Up</button>
+					  <button type="submit" name="signup" class="btn btn-default button-sign" >Sign Up</button>
+					  <p>
+  		               Already a member? <a href="login.php"> Login</a>
+                   	</p>
 				</form>
 			</div>
 		</div>

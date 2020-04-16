@@ -4,32 +4,22 @@ require_once("dbcontroller.php");
 $db_handle = new DBController();
 if(!empty($_GET["action"])) {
 switch($_GET["action"]) {
-	//ajouter au panier
 	case "add":
-	//verifier si la quantite passer par post methode n'est pas vide  et retourner vrai si oui
 		if(!empty($_POST["quantity"])) {
 			$productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
 			$itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
-	//verifier si cart_item dans la session courrante n'est pas vide 
-	//retourner vrai si oui 		
+			
 			if(!empty($_SESSION["cart_item"])) {
-				//verifier si l'article existe deja au panier
 				if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
-					//boocle des elements du panier
 					foreach($_SESSION["cart_item"] as $k => $v) {
-					//chercher l'element qui egale à l'element selectionner	
 							if($productByCode[0]["code"] == $k) {
-								//si le panier est vide rendre la session quantite à 0
 								if(empty($_SESSION["cart_item"][$k]["quantity"])) {
 									$_SESSION["cart_item"][$k]["quantity"] = 0;
 								}
-								//ajouter la nouvelle quantite
 								$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
 							}
 					}
-				}
-				
-				else {
+				} else {
 					$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
 				}
 			} else {
@@ -37,15 +27,12 @@ switch($_GET["action"]) {
 			}
 		}
 	break;
-	//action remove
 	case "remove":
-	//si cart_item n'est pas vide	
 		if(!empty($_SESSION["cart_item"])) {
 			foreach($_SESSION["cart_item"] as $k => $v) {
 					if($_GET["code"] == $k)
 						unset($_SESSION["cart_item"][$k]);				
 					if(empty($_SESSION["cart_item"]))
-		//desarmer cart_item de la session courrante			
 						unset($_SESSION["cart_item"]);
 			}
 		}
@@ -82,13 +69,13 @@ switch($_GET["action"]) {
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			  <span class="navbar-toggler-icon"></span>
 			</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-		  <ul class="navbar-nav">
+		<div class="collapse navbar-collapse" id="navbarText">
+		  <ul class="navbar-nav  mr-auto">
 			<li class="nav-item">
 			  <a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item active">
-			  <a class="nav-link" href="menu.php">Menu</a>
+			  <a class="nav-link" href="menu-login.php">Menu</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" href="about.php">About Us</a>
@@ -96,15 +83,10 @@ switch($_GET["action"]) {
 			<li class="nav-item">
 			  <a class="nav-link" href="contactus.php">Contact Us</a>
 			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="signup.php">Sign up</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="login.php">Login</a>
-			</li>
 		  </ul>
-		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>   
+			<span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>
 		</div>
+		
 	  </div>
 </nav>
 
@@ -116,7 +98,7 @@ switch($_GET["action"]) {
 					<h3>MENU</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Menu</li>
 						</ol>   
 					</nav>
@@ -126,12 +108,12 @@ switch($_GET["action"]) {
 	</div>
 </header>
 
-   <!--panier-->
+
 <div id="shopping-cart">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 cart-space">
-				<a id="btnEmpty" href="menu.php?action=empty">Empty Cart</a>
+				<a id="btnEmpty" href="menu-login.php?action=empty">Empty Cart</a>
 				<?php
 				if(isset($_SESSION["cart_item"])){
 					$total_quantity = 0;
@@ -159,7 +141,7 @@ switch($_GET["action"]) {
 									<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
 									<td  style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
 									<td  style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
-									<td style="text-align:center;"><a href="menu.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="img/icon-delete.png" alt="Remove Item" /></a></td>
+									<td style="text-align:center;"><a href="menu-login.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="img/icon-delete.png" alt="Remove Item" /></a></td>
 									</tr>
 									<?php
 									$total_quantity += $item["quantity"];
@@ -197,11 +179,11 @@ switch($_GET["action"]) {
 				?>
 						<div class="col-lg-4">
 							<div class="card">
-								<form method="post" action="menu.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
+								<form method="post" action="menu-login.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
 								<img class="card-img-top card-img" src="<?php echo $product_array[$key]["image"]; ?>">
 								<div class="card-body">
 									<h5 class="card-title"><?php echo $product_array[$key]["name"]; ?></h5>
-								
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
 								</div>
 								<div class="card-footer">
 									<small style="margin-right:15px;" class="text-muted"><?php echo $product_array[$key]["price"]; ?><span>$</span></small>
@@ -222,7 +204,7 @@ switch($_GET["action"]) {
 
 <footer>
 <div class="container">
-	<p style="margin-bottom:0;"><b></p>
+	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
 </div>
 </footer>
 
