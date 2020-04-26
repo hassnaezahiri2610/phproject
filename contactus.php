@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+
+session_start();
+
+if (empty($_SESSION['email'])) {
+	header('Location: login.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +69,7 @@
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
-							<li class="breadcrumb-item active" aria-current="page">Signup</li>
+							<li class="breadcrumb-item active" aria-current="page">Contact us</li>
 						</ol>   
 					</nav>
 				</div>
@@ -72,7 +80,6 @@
   <div style="margin-top:30px;" class=" container content">
         <div class="formDiv">
             <form action="send_form_email.php" method="post" id="frmLogin">
-               
                 <div class="form-group">
                     <label for="emailInput">
                         Full Name:
@@ -89,7 +96,7 @@
                     <label for="emailInput">
                         Telephone:
                     </label>
-                    <input type="text" class="form-control" aria-describedby="Telephone" id="telephone" name="telephone" placeholder="Enter email">
+                    <input type="text" class="form-control" aria-describedby="Telephone" id="telephone" name="telephone" placeholder="Enter telephone">
                 </div>
                 <div class="form-group">
                     <label for="emailInput">

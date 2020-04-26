@@ -44,7 +44,7 @@
 			<li class="nav-item">
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
-		  </ul>  
+		  </ul>
 		</div>
 	  </div>
 </nav>
@@ -57,7 +57,7 @@
 					<h3>SIGN UP</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Signup</li>
 						</ol>   
 					</nav>
@@ -72,32 +72,48 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<form method="POST" action="login.php">
+				
+				<!--    afficher le message d error   -->
+						<?php
+							if(isset($_SESSION["errorMessage"])){
+						?>
+						<div class="error-message"><?php echo $_SESSION["errorMessage"];?></div>
+						<?php
+							unset($_SESSION["errorMessage"]);
+							}
+						?>
+						
+				<!-- end message error -->
+							
+				
 						<div class="form-group">
 						<label class="title-sign" for="fullname">Full Name</label>
-						<input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name">
+						<input type="text" class="form-control" id="fullname" name="name" placeholder="Full Name"
+						required>
 					  </div>
 					  <div class="form-row">
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputEmail4">Email</label>
-						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
+						   <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email"
+						   required>
 						</div>
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputPassword4">Password</label>
-						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
+						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password" required>
 						</div>
 					  </div>
 					  <div class="form-group">
 						<label class="title-sign" for="inputAddress">Address</label>
-						<input type="text" class="form-control" name="address" id="inputAddress">
+						<input type="text" class="form-control" name="address" id="inputAddress" required>
 					  </div>
 					  <div class="form-row">
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputCity">City</label>
-						  <input type="text" class="form-control" name="city" id="inputCity">
+						  <input type="text" class="form-control" name="city" id="inputCity" required>
 						</div>
 						<div class="form-group col-md-6">
 						  <label class="title-sign" for="inputZip">Zip</label>
-						  <input type="text" class="form-control" name="zip" id="inputZip">
+						  <input type="text" class="form-control" name="zip" id="inputZip" required>
 						</div>
 					  </div>
 					  <div class="form-group">
@@ -109,6 +125,10 @@
 						</div>
 					  </div>
 					  <button type="submit" name="signup" class="btn btn-default button-sign">Sign Up</button>
+					  </br>
+					   <p>
+  	             	Already a member? <a href="login.php">Login</a>
+                  	</p>
 				</form>
 			</div>
 		</div>

@@ -11,9 +11,30 @@ if (isset($_POST["signup"])) {
 	$city =  $_POST["city"];
 	$zip =  $_POST["zip"];
 	
+	// Authentification
+ 
+	
+	 $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
 
+    if (!preg_match($email_exp, $email)) {
 
-	$sql = $db_handle->runQuery("INSERT INTO `users`( `name`, `email`, `password`, `address`, `city`, `zip` ) VALUES ('{$name}' , '{$email}' , '{$password}' ,'{$address}' , '{$city}', '{$zip}')");
+        $error_message .= $email .'The Email Address you entered does not appear to be valid.<br />';
+			header("Location: signup.php");
+           exit();
+    }
+
+$sql1 = $db_handle->runQuery("SELECT * FROM `users` WHERE `email`='{$email}' ");
+
+  if ($sql1) {
+			$_SESSION['email'] = $_POST["email"];
+		$_SESSION['errorMessage']="<H2>Votre adresse e-mail existe déja.</H2>";
+			header("Location: signup.php");
+            exit();
+
+        } else{
+        	
+	$sql = $db_handle->runQuery("INSERT INTO `users`( `name`, `email`, `password`, `address`, `city`, `zip` ) VALUES ('{$name}' , '{$email}' , '{$password}' ,'{$address}' , '{$city}', '{$zip}')"); 
+
  
  	if ($sql) {
 			
@@ -22,6 +43,7 @@ if (isset($_POST["signup"])) {
  
 	}
 
+}
 }
 if (isset($_POST["login"])) {
 
@@ -36,6 +58,10 @@ if (isset($_POST["login"])) {
             exit();
 
         } else{
+			
+			// hna ila kayn error dyal login  dirih f session
+			$_SESSION['errorMessage']="<h2>Email or password incorrect try again<h2>";
+			
 			header("Location: login.php");
             exit();
 		}
@@ -61,7 +87,25 @@ if (isset($_POST["login"])) {
 
 
 <body>
+<script>
+        function validate() {
+            var $valid = true;
+            document.getElementById("user_info").innerHTML = "";
+            document.getElementById("password_info").innerHTML = "";
 
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            if (email == "") {
+                document.getElementById("user_info").innerHTML = "required";
+                $valid = false;
+            }
+            if (password == "") {
+                document.getElementById("password_info").innerHTML = "required";
+                $valid = false;
+            }
+            return $valid;
+        }
+    </script>
 <!-- Navigation -->
 <nav class="navbar mynav navbar-expand-lg navbar-light bg-light fixed-top">
 	  <div class="container">
@@ -89,7 +133,6 @@ if (isset($_POST["login"])) {
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
 		  </ul>
-		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>   
 		</div>
 	  </div>
 </nav>
@@ -102,7 +145,7 @@ if (isset($_POST["login"])) {
 					<h3>LOGIN</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">login</li>
 						</ol>   
 					</nav>
@@ -116,14 +159,29 @@ if (isset($_POST["login"])) {
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<form method="POST">
+			
+						
+				<form method="POST" onSubmit="return validate();">
+				
+						<!--  han n afficher le message d error ila kayn f session  -->
+						<?php
+							if(isset($_SESSION["errorMessage"])){
+						?>
+						<div class="error-message"><?php echo $_SESSION["errorMessage"];?></div>
+						<?php
+							unset($_SESSION["errorMessage"]);
+							}
+						?>
+						
+							<!-- end message error -->
+							
 						<div class="form-group">
 						  <label class="title-sign" for="inputEmail4">Email</label>
-						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email">
+						  <input type="email" class="form-control" id="inputEmail4" name="email" placeholder="Email" required>
 						</div>
 						<div class="form-group">
 						  <label class="title-sign" for="inputPassword4">Password</label>
-						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
+						  <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password" required>
 						</div>
 						<div class="form-group">
 							<div class="form-check">
@@ -134,6 +192,10 @@ if (isset($_POST["login"])) {
 							</div>
 						</div>
 					  <button type="submit" class="btn btn-default button-sign" name="login">Login</button>
+					  </br>
+					  <p>
+  	              	      Not yet a member? <a href="signup.php">Sign up</a>
+                      	</p>
 				</form>
 			</div>
 		</div>

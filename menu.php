@@ -1,61 +1,13 @@
 <?php
+
 session_start();
-require_once("dbcontroller.php");
-$db_handle = new DBController();
-if(!empty($_GET["action"])) {
-switch($_GET["action"]) {
-	//ajouter au panier
-	case "add":
-	//verifier si la quantite passer par post methode n'est pas vide  et retourner vrai si oui
-		if(!empty($_POST["quantity"])) {
-			$productByCode = $db_handle->runQuery("SELECT * FROM tblproduct WHERE code='" . $_GET["code"] . "'");
-			$itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
-	//verifier si cart_item dans la session courrante n'est pas vide 
-	//retourner vrai si oui 		
-			if(!empty($_SESSION["cart_item"])) {
-				//verifier si l'article existe deja au panier
-				if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
-					//boocle des elements du panier
-					foreach($_SESSION["cart_item"] as $k => $v) {
-					//chercher l'element qui egale à l'element selectionner	
-							if($productByCode[0]["code"] == $k) {
-								//si le panier est vide rendre la session quantite à 0
-								if(empty($_SESSION["cart_item"][$k]["quantity"])) {
-									$_SESSION["cart_item"][$k]["quantity"] = 0;
-								}
-								//ajouter la nouvelle quantite
-								$_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
-							}
-					}
-				}
-				
-				else {
-					$_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
-				}
-			} else {
-				$_SESSION["cart_item"] = $itemArray;
-			}
-		}
-	break;
-	//action remove
-	case "remove":
-	//si cart_item n'est pas vide	
-		if(!empty($_SESSION["cart_item"])) {
-			foreach($_SESSION["cart_item"] as $k => $v) {
-					if($_GET["code"] == $k)
-						unset($_SESSION["cart_item"][$k]);				
-					if(empty($_SESSION["cart_item"]))
-		//desarmer cart_item de la session courrante			
-						unset($_SESSION["cart_item"]);
-			}
-		}
-	break;
-	case "empty":
-		unset($_SESSION["cart_item"]);
-	break;	
+
+if (!empty($_SESSION['email'])) {
+	header('Location: menu-login.php');
 }
-}
+
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -94,16 +46,12 @@ switch($_GET["action"]) {
 			  <a class="nav-link" href="about.php">About Us</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" href="contactus.php">Contact Us</a>
-			</li>
-			<li class="nav-item">
 			  <a class="nav-link" href="signup.php">Sign up</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
-		  </ul>
-		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>   
+		  </ul>  
 		</div>
 	  </div>
 </nav>
@@ -119,110 +67,145 @@ switch($_GET["action"]) {
 							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Menu</li>
 						</ol>   
+						<!-- Button trigger modal -->
+						<a href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-shopping-cart cart"></i></a>
+						<!-- Modal -->
+						<div style="color:#222;" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLongTitle">Soupe</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <div style="text-align: left;" class="modal-body">
+									<img style="height:200px;object-fit: cover;" class="card-img-top card-img" src="img/food/soupe.jpg" alt="Card image cap">
+									<div class="card-body">
+										<h5 class="card-title">Harira</h5>
+										<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+									</div>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							 <form method="get" action="login.php"><button type="submit" class="btn btn-default button-check">Login</button> </form>
+							  </div>
+							</div>
+						  </div>
+						</div>
 					</nav>
-				</div>				
+				</div>
 			</div>		
 		</div>
 	</div>
 </header>
 
-   <!--panier-->
-<div id="shopping-cart">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 cart-space">
-				<a id="btnEmpty" href="menu.php?action=empty">Empty Cart</a>
-				<?php
-				if(isset($_SESSION["cart_item"])){
-					$total_quantity = 0;
-					$total_price = 0;
-				?>	
-				<table class="table" cellpadding="10" cellspacing="1">
-					<thead class="thead-dark table-bordered">
-						<tr>
-						<th style="text-align:left;" scope="col">Name</th>
-						<th style="text-align:left;" scope="col">Code</th>
-						<th style="text-align:right;" scope="col">Quantity</th>
-						<th style="text-align:right;" scope="col">Unit Price</th>
-						<th style="text-align:right;" scope="col">Price</th>
-						<th style="text-align:center;"  scope="col">Remove</th>
-						</tr>
-					</thead>
-					<tbody>
-					<?php		
-						foreach ($_SESSION["cart_item"] as $item){
-							$item_price = $item["quantity"]*$item["price"];
-							?>
-									<tr>
-									<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?></td>
-									<td><?php echo $item["code"]; ?></td>
-									<td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
-									<td  style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
-									<td  style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
-									<td style="text-align:center;"><a href="menu.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction"><img src="img/icon-delete.png" alt="Remove Item" /></a></td>
-									</tr>
-									<?php
-									$total_quantity += $item["quantity"];
-									$total_price += ($item["price"]*$item["quantity"]);
-							}
-							?>
-
-					<tr>
-					<td colspan="2" align="right">Total:</td>
-					<td align="right"><?php echo $total_quantity; ?></td>
-					<td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong></td>
-					<td></td>
-					</tr>
-					</tbody>
-				</table>		
-				  <?php
-				} else {
-				?>
-				<div class="no-records">Your Cart is Empty</div>
-				<?php 
-				}
-				?>
-			</div>
-		</div>
-	</div>
-</div>
-
 <section class="food">
 	<div class="container">
 		<div class="row">
-				<?php
-				$product_array = $db_handle->runQuery("SELECT * FROM tblproduct ORDER BY id ASC");
-				if (!empty($product_array)) { 
-					foreach($product_array as $key=>$value){
-				?>
-						<div class="col-lg-4">
-							<div class="card">
-								<form method="post" action="menu.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
-								<img class="card-img-top card-img" src="<?php echo $product_array[$key]["image"]; ?>">
-								<div class="card-body">
-									<h5 class="card-title"><?php echo $product_array[$key]["name"]; ?></h5>
-								
-								</div>
-								<div class="card-footer">
-									<small style="margin-right:15px;" class="text-muted"><?php echo $product_array[$key]["price"]; ?><span>$</span></small>
-									<input type="text" class="product-quantity" name="quantity" value="1" size="2" />
-									<button type="submit" value="Add to Cart" class="btnAddAction" ><i style="color: #cca34b;" class="fas fa-cart-plus"></i></button>
-								</div>
-								</form>
-							</div>
-						</div>
-				<?php
-					}
-				}
-	
-			?>
-		</div>	
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/soupe.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Soupe</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">30<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/spagui.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Spagui</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">35<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/meat.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Meat</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">40<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/passtilla.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Passtilla</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">24<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/poisson.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Poisson</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">30<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/salade.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Salade</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">50<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/lasagne.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Lasagne</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">34<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card">
+				  <img class="card-img-top card-img" src="img/food/grattain.jpg" alt="Card image cap">
+				  <div class="card-body">
+					<h5 class="card-title">Grattain</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				  <div class="card-footer">
+					<small class="text-muted">40<span>$</span></small><a class="add-link" href="#"><i style="color: #cca34b;" class="fas fa-cart-plus float-right"></i></a>
+				  </div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 
 <footer>
 <div class="container">
-	<p style="margin-bottom:0;"><b></p>
+	<p style="margin-bottom:0;"><b>Restaurant</b> ©  Copyright All right reserved 2020</p>
 </div>
 </footer>
 

@@ -47,6 +47,7 @@
 			  <a class="nav-link" href="login.php">Login</a>
 			</li>
 		  </ul>
+		  <span class="navbar-text" style="padding: .5rem 1rem;">&#128100; Welcome!<a style="color:#185694;font-weight:600;" href="#"><?php echo $_SESSION['email']; ?></a></span><a style="text-decoration:none;color:red;" href="logout.php">&#9747</a>   
 		</div>
 	  </div>
 </nav>
@@ -59,7 +60,7 @@
 					<h3>ABOUT</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">About</li>
 						</ol>   
 					</nav>
@@ -77,12 +78,9 @@
 				  <img class="card-img-top card-img" src="img/slide1.jpg" alt="Card image cap">
 				  <div class="card-body">
 					<h4 class="card-title">Restaurant</h4>
-					<p class="card-text">Vous cherchez des bons plats  avec de bons produits ?
-Nous serons peut-être la solution que vous choisirez et dans ce cas-là, nous ferons tout notre possible pour vous apporter une cuisine à domicile. </br>
+					<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam viverra tellus eget consequat sagittis. Morbi sed rhoncus purus, quis volutpat massa. Donec purus purus, placerat vitae sagittis a, commodo vitae felis. Nullam quis iaculis est, in fermentum tortor. Vivamus volutpat neque sed ornare commodo. Quisque id elit a felis feugiat molestie nec ac nisl. Mauris aliquam, nibh id malesuada interdum, sapien mi hendrerit est, et pellentesque nulla erat et dui. Sed sagittis quam non elit hendrerit blandit. Etiam vitae sem ac metus tempor hendrerit nec vitae odio. Mauris imperdiet vel risus in sodales. Proin non bibendum diam, ac bibendum tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce a erat magna. Pellentesque lobortis leo lectus, ac lobortis augue placerat at.
 
-Nous sommes persuadés que pour avoir du goût dans l’assiette et être en meilleure santé, il faut des bons produits. Alors nous tissons petit à petit un réseau de supers producteurs autour de chez nous. </br>
-
-Nous cuisinons tous vos plats juste avant de vous les envoyer. Nous n’avons aucun stock. Notre cuisine est située à Agadir et toutes les personnes qui souhaitent venir nous voir sont les bienvenus !</p>
+Nunc volutpat nunc sit amet nibh accumsan cursus. Pellentesque ac justo a nibh eleifend consectetur vel nec velit. Praesent aliquam mi malesuada erat porttitor, in molestie magna semper. Maecenas ante purus, iaculis eget fringilla at, consequat id metus. Aliquam vitae mauris magna. Aenean tristique id lorem sed tristique. Sed volutpat neque ut nulla commodo condimentum. Sed ullamcorper elit non aliquet semper. Suspendisse potenti. Fusce faucibus porttitor aliquet. Aenean fringilla ex nec elit auctor, non suscipit lorem sodales. Suspendisse id tellus eu quam aliquam elementum a et lorem. Aliquam enim justo, facilisis id libero vel, aliquet dignissim neque. Pellentesque non ante at mi commodo aliquet. Aliquam metus nunc, porta quis maximus non, facilisis in mi.</p>
 				  </div>
 				  <div class="card-footer">
 					<div class="social">
@@ -92,7 +90,7 @@ Nous cuisinons tous vos plats juste avant de vous les envoyer. Nous n’avons au
 							<li><a href="#"><i class="fab fa-twitter"></i></a></li>
 							<li><a href="#"><i class="fab fa-youtube"></i></a></li>
 							<li><a href="#"><i class="fas fa-rss"></i></a></li>
-							<li class="float-right"><a href="contactus.php"><i style="font-size:16px;color: #cca34b;" class="far fa-envelope"></i></a></li>
+							<li class="float-right"><a href="#"><i style="font-size:16px;color: #cca34b;" class="far fa-envelope"></i></a></li>
 						</ul>
 					</div>
 				  </div>

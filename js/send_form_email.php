@@ -5,14 +5,14 @@ if (isset($_POST['email_send'])) {
 
     // EDIT THE 2 LINES BELOW AS REQUIRED
 
-    $email_to = "hassnaezahiri2610@gmail.com";
+    $email_to = "wiamhasna@gmail.com";
 
     $email_subject = "Your email subject line";
     function died($error)
     {
         // your error code can go here
 
-        echo "sorry, but there were error(s) found with the form you submitted. ";
+        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
 
         echo "These errors appear below.<br /><br />";
 
@@ -22,7 +22,11 @@ if (isset($_POST['email_send'])) {
 
         die();
     }
+
+
+
     // validation expected data exists
+
     if (
 
         !isset( $_POST['name']) ||
@@ -56,14 +60,13 @@ if (isset($_POST['email_send'])) {
     if (!preg_match($email_exp, $email_from)) {
 
         $error_message .= $email_from .'The Email Address you entered does not appear to be valid.<br />';
-       
     }
 
     $string_exp = "/^[A-Za-z .'-]+$/";
 
     if (!preg_match($string_exp, $name)) {
 
-        $error_message .= 'The Name you entered does not appear to be valid.<br />';
+        $error_message .= 'The First Name you entered does not appear to be valid.<br />';
     }
 
     if (strlen($comments) < 2) {
@@ -111,8 +114,8 @@ if (isset($_POST['email_send'])) {
     echo '
     Thank you for contacting us. We will be in touch with you very soon.
     ';
+
      header("Location: contactus.php");
-     exit();
 }
 
 ?>

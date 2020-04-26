@@ -98,7 +98,7 @@ switch($_GET["action"]) {
 					<h3>MENU</h3>
 					<nav aria-label="breadcrumb" class="breadcrumb d-flex justify-content-between">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="index.php">Home</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Menu</li>
 						</ol>   
 					</nav>
@@ -198,8 +198,54 @@ switch($_GET["action"]) {
 				}
 	
 			?>
-		</div>	
-	</div>
+			
+				</div>	
+            	</div>
+			
+			
+			
+			
+			
+   <?php
+  require 'includes/connect_db.php';
+ if(!empty($_FILES)){
+ 	 $file_name = $_FILES['fichier']['name'];
+ 	 $file_extension = strrchr($file_name, ".");
+
+ 	 $file_tmp_name = $_FILES['fichier']['tmp_name'];
+ 	 $file_dest = 'files/'.$file_name;
+
+
+ 	$extensions_autorisees  = array('.pdf','.PDF' );
+ 	if(in_array($file_extension, $extensions_autorisees)){
+ 		if(move_uploaded_file($file_tmp_name,$file_dest)){
+ 			$req = $db->prepare('INSERT INTO files(name,file_url) VALUES(?,?)');
+ 			 $req->execute(array($file_name,$file_dest));
+ 			echo 'fichier envoyé avec succes';
+ 		} else {
+ 			echo "Une erreur est survenue lors de l'envoi du fichier";
+ 		}
+
+ 	}else{
+ 		echo 'Seuls les fichiers PDF sont autorisés';
+ 	}
+ }
+?>
+			
+			
+	<h1>Uploader un fichier PDF</h1>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="fichier" />
+      <input type="submit" value="Envoyer le fichier" />	
+    </form>
+    <h1>Fichiers PDF enregistrées</h1>
+    <?php
+     $req = $db->query('SELECT name, file_url FROM files');
+     while($data = $req->fetch()){
+     echo $data['name'].':'.'<a href= "'.$data['file_url'].'"> Télécharger'.$data['name'].'</a>'.'<br/>';
+     }
+     ?>
+	
 </section>
 
 <footer>
