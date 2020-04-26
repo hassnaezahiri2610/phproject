@@ -2,7 +2,7 @@
 class DBController {
 	private $host = "localhost";
 	private $user = "id12857167_root";
-	private $password = "QE6]7h6v\~px8fo*";
+	private $password = "";
 	private $database = "id12857167_restaurant";
 	private $conn;
 	
